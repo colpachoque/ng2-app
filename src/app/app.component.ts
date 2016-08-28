@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import {TodoService} from "./services/todo.service";
 
 @Component({
   selector: 'app',
@@ -17,7 +18,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
     <footer>
         Footer foo
     </footer>
-  `
+  `,
+  providers: [
+    TodoService
+  ]
 })
 export class App {
 

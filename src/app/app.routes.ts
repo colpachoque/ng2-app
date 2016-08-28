@@ -1,12 +1,17 @@
 import { WebpackAsyncRoute } from '@angularclass/webpack-toolkit';
 import { RouterConfig } from '@angular/router';
-import { Home } from './home';
+import { TodoList } from './todo-list';
+import { TodoDetails } from './todo-details';
 
 export const routes: RouterConfig = [
   {
     path: '',
-    component: Home
-  }
+    component: TodoList
+  },
+  // {
+  //   path: 'details',
+  //   component: TodoDetails
+  // }
 ];
 
 export const asyncRoutes: AsyncRoutes = {
