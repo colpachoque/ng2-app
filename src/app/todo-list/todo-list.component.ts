@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {TodoService, TodoItem} from './../services/todo.service';
-import {FilterEnum} from './filter-enum'
+import {FilterEnum} from './filter-enum';
+import {AddItemComponent} from './add-item/add-item.component.ts';
+import {FiltersComponent} from './filters/filters.component';
+import {ItemsListComponent} from './items-list/items-list.component.ts';
 
 @Component({
   selector: 'todo-list',  // <home></home>
@@ -10,36 +13,23 @@ import {FilterEnum} from './filter-enum'
   templateUrl: `
     <h1>Todo List</h1>
     
-    <div class="clock">{{time}}</div>
+    <div class="clock">{{time | date: 'HH:mm:ss'}}</div>
     
-    <div class="filters">
-      <button [class.active]="filter == FilterEnum.All" (click)="setFilter(FilterEnum.All)">All</button>
-      <button [ngClass]="{'active': filter == FilterEnum.Done}" (click)="setFilter(FilterEnum.Done)">Done</button>
-      <button [ngClass]="{'active': filter == FilterEnum.Undone}" (click)="setFilter(FilterEnum.Undone)">Undone</button>
-    </div>
+    <filters [filter]="filter" (change)="setFilter($event)"></filters>
     
-    <div class="add-item">
-      <input type="text" [(ngModel)]="itemName" (keydown.enter)="addItem(itemName)"/>
-        <button (click)="addItem(itemName)" [disabled]="!itemName">Add</button>
-    </div>
+    <add-item [itemName]="itemName" (addItem)="addItem($event)"></add-item>
     
-    <div class="statistics">Count: {{items.length}}</div>
-    
-    <div class="items">
-    <div class="item" *ngFor="let item of getFilteredItems()">
-      <input type="checkbox" [checked]="item.isDone" (click)="toggleItem(item)"/>
-        <a class="item-text" href="#/details" [class.done-item]="item.isDone">
-          {{item.text}}
-        </a>
-      <button class="item-del" (click)="deleteItem(item)">X</button>
-    </div>
-`
+    <items-list [items]="getFilteredItems()"
+        (toggle)="toggleItem($event)"
+        (delete)="deleteItem($event)"></items-list>
+`,
+  directives: [AddItemComponent, FiltersComponent, ItemsListComponent]
 })
 
 export class TodoList {
-  time: string;
+  time: Date;
   items: TodoItem[] = [];
-  itemName: string = 'New Item';
+  itemName: string = 'New Todo Item';
   filter: FilterEnum = FilterEnum.All;
   FilterEnum: any = FilterEnum;
 
@@ -52,15 +42,12 @@ export class TodoList {
     this.items = this.todoService.getTodoItems();
 
     setInterval(() => {
-      this.time = new Date().getSeconds().toString();
+      this.time = new Date();
     }, 1000)
   }
 
   addItem(text: string) {
-    if (text) {
-      this.items.push(new TodoItem(null, false, text, '', null))
-      this.itemName = '';
-    }
+    this.items.push(new TodoItem(null, false, text, '', null))
   }
 
   deleteItem(item: TodoItem) {

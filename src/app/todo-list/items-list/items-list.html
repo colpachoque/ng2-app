@@ -1,0 +1,9 @@
+<div class="statistics">Count: {{items?.length}}</div>
+
+<div class="items">
+  <todo-item *ngFor="let item of items"
+    [item]="item"
+    (delete)="delete.emit(item)"
+    (toggle)="toggle.emit(item)">
+  </todo-item>
+</div>

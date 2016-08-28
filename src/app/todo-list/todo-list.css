@@ -4,22 +4,6 @@
   width: 200px;
 }
 
-.add-item {
-  margin-bottom: 10px;
-}
-
-.filters {
-  margin-bottom: 10px;
-}
-
-.filters button {
-  background: #aaaaaa;
-}
-
-.filters button.active {
-  background: #00b0e8;
-}
-
 .statistics {
   font-style: italic
 }

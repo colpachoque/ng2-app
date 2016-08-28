@@ -1,0 +1,5 @@
+<div class="filters">
+  <button [class.active]="filter == FilterEnum.All" (click)="change.emit(FilterEnum.All)">All</button>
+  <button [ngClass]="{'active': filter == FilterEnum.Done}" (click)="change.emit(FilterEnum.Done)">Done</button>
+  <button [ngClass]="{'active': filter == FilterEnum.Undone}" (click)="change.emit(FilterEnum.Undone)">Undone</button>
+</div>

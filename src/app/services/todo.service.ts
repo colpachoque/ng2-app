@@ -14,7 +14,7 @@ export class TodoService {
 export class TodoItem {
   constructor(
     public id: number,
-    public isDons: boolean,
+    public isDone: boolean,
     public text: string,
     public description: string,
     public time: number
