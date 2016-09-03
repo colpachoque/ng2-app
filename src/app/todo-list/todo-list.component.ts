@@ -39,23 +39,41 @@ export class TodoList {
 
   ngOnInit() {
     console.log('hello `Home` component');
-    this.items = this.todoService.getTodoItems();
-
+    // this.items = this.todoService.getTodoItems();
+    this.items = this.todoService.getTodoItems()
+      .subscribe(res => {
+        debugger;
+        this.items = res;
+      });
     setInterval(() => {
       this.time = new Date();
     }, 1000)
   }
 
   addItem(text: string) {
-    this.items.push(new TodoItem(null, false, text, '', null))
+    var newItem = new TodoItem(null, false, name, null, null);
+
+    this.todoService.addItem(newItem)
+      .subscribe(item => {
+        this.items.push(item);
+        this.itemName = '';
+      });
   }
 
-  deleteItem(item: TodoItem) {
-    this.items = this.items.filter(i => i !== item);
+  deleteItem(delItem: TodoItem) {
+    // this.items = this.items.filter(i => i !== item);
+    this.todoService.deleteItem(delItem)
+      .subscribe(res => {
+        this.items = this.items.filter(item => item !== delItem)
+      });
   }
 
   toggleItem(item: TodoItem) {
-    item.isDone = !item.isDone;
+    // item.isDone = !item.isDone;
+    this.todoService.updateItem(Object.assign({}, item, {isDone: !item.isDone}))
+      .subscribe(res => {
+        item.isDone = !item.isDone;
+      });
   }
 
   setFilter(filter:FilterEnum) {
@@ -63,6 +81,8 @@ export class TodoList {
   }
 
   getFilteredItems() {
+    setTimeout(()=>{}, 10000);
+    debugger;
     return this.items.filter(item => {
       return this.filter == FilterEnum.All
         || item.isDone && this.filter == FilterEnum.Done

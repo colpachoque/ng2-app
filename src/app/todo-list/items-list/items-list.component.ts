@@ -1,7 +1,7 @@
 import { Component, EventEmitter } from '@angular/core';
 import {TodoService, TodoItem} from "../../services/todo.service";
 import {TodoItemComponent} from "./todo-item/todo-item.component";
-
+import {LengthPipe} from '../../pipes/length.pipe';
 
 
 @Component({
@@ -12,7 +12,8 @@ import {TodoItemComponent} from "./todo-item/todo-item.component";
   ],
   inputs: ['items'],
   outputs: ['toggle', 'delete'],
-  directives: [TodoItemComponent]
+  directives: [TodoItemComponent],
+  pipes: [LengthPipe]
 })
 
 export class ItemsListComponent {
